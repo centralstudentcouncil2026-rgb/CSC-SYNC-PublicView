@@ -34,7 +34,13 @@
     .menu-button span { display: block; width: 20px; height: 2px; border-radius: 999px; background: currentColor; box-shadow: 0 -7px 0 currentColor, 0 7px 0 currentColor; }
     .icon-button:hover { border-color: #2563eb; color: #1d4ed8; box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.14); }
     .icon-button:active { transform: scale(.96); }
-    #prevButton, #nextButton { aspect-ratio: 1; border-radius: 50%; flex: 0 0 44px; height: 44px; max-width: 44px; min-height: 44px; min-width: 44px; padding: 0; width: 44px; }
+    #prevButton, #nextButton { align-items: center; aspect-ratio: 1; background: #fffdf5; border: 1px solid #d7a900; border-radius: 50%; box-shadow: 0 3px 8px rgba(8, 43, 92, .16); color: #082b5c; display: inline-flex; flex: 0 0 44px; height: 44px; justify-content: center; line-height: 1; max-width: 44px; min-height: 44px; min-width: 44px; padding: 0; transition: transform 150ms ease, background-color 150ms ease, border-color 150ms ease, box-shadow 150ms ease, color 150ms ease; width: 44px; }
+    #prevButton svg, #nextButton svg { display: block; width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 2.5; pointer-events: none; }
+    #prevButton:hover, #nextButton:hover { background: #fff8d8; border-color: #d7a900; color: #082b5c; box-shadow: 0 5px 12px rgba(8, 43, 92, .22); transform: translateY(-2px); }
+    #prevButton:active, #nextButton:active { transform: translateY(0) scale(.94); }
+    #prevButton:focus, #nextButton:focus { border-color: #d7a900; box-shadow: 0 3px 8px rgba(8, 43, 92, .16); }
+    #prevButton:focus-visible, #nextButton:focus-visible { outline: 3px solid rgba(8, 43, 92, .35); outline-offset: 3px; box-shadow: 0 3px 8px rgba(8, 43, 92, .16); }
+    #prevButton:disabled, #nextButton:disabled { opacity: .45; cursor: not-allowed; box-shadow: none; transform: none; }
     .notification-button { aspect-ratio: 1; flex: 0 0 44px; height: 44px; max-width: 44px; min-height: 44px; min-width: 44px; position: relative; color: #ca8a04; font-size: 1.2rem; width: 44px; }
     .badge { position: absolute; top: -6px; right: -4px; min-width: 18px; height: 18px; padding: 0 5px; border-radius: 999px; display: none; place-items: center; background: #dc2626; color: #fff; border: 2px solid #fff; font-size: .7rem; font-weight: 900; line-height: 1; }
     .badge.show { display: grid; }
@@ -93,6 +99,7 @@
       .control, .icon-button { height: 36px; }
       .icon-button { width: 36px; min-width: 36px; font-size: 1.05rem; }
       #prevButton, #nextButton, .notification-button { flex-basis: 36px; height: 36px; max-width: 36px; min-height: 36px; min-width: 36px; width: 36px; }
+      #prevButton svg, #nextButton svg { width: 20px; height: 20px; }
       .view-control { width: 86px; padding-inline: 10px; }
       main { display: block; padding: 8px; }
       .calendar-panel { padding: 4px; border-radius: 10px; }
@@ -108,7 +115,7 @@
       .detail-grid { grid-template-columns: 1fr; }
     }
     @media (max-width: 460px) { .app-header { grid-template-columns: 40px minmax(136px, max-content) minmax(0, 1fr); } .toolbar { grid-template-columns: minmax(0, 1fr) 80px 36px 36px 36px; gap: 5px; } .view-control { width: 80px; padding-inline: 8px; } dialog { width: calc(100vw - 16px); border-radius: 12px; } .modal-header, .modal-body { padding-inline: 14px; } }
-    @media (max-width: 380px) { .app-header { grid-template-columns: 38px minmax(118px, max-content) minmax(0, 1fr); gap: 5px; } .menu-button { height: 38px; min-height: 38px; min-width: 38px; width: 38px; } .brand { gap:5px; } .brand-mark { width: 34px; height: 34px; } .brand-title strong { font-size: .78rem; } .calendar-title { font-size: .92rem; } .toolbar { grid-template-columns: minmax(0, 1fr) 72px 34px 34px 34px; gap: 4px; } .control, .icon-button { height: 34px; } .icon-button, #prevButton, #nextButton, .notification-button { flex-basis: 34px; height: 34px; max-width: 34px; min-height: 34px; min-width: 34px; width: 34px; } .view-control { width: 72px; font-size: .86rem; } .select-control { font-size: .9rem; padding-inline: 12px 24px; } }
+    @media (max-width: 380px) { .app-header { grid-template-columns: 38px minmax(118px, max-content) minmax(0, 1fr); gap: 5px; } .menu-button { height: 38px; min-height: 38px; min-width: 38px; width: 38px; } .brand { gap:5px; } .brand-mark { width: 34px; height: 34px; } .brand-title strong { font-size: .78rem; } .calendar-title { font-size: .92rem; } .toolbar { grid-template-columns: minmax(0, 1fr) 72px 34px 34px 34px; gap: 4px; } .control, .icon-button { height: 34px; } .icon-button, #prevButton, #nextButton, .notification-button { flex-basis: 34px; height: 34px; max-width: 34px; min-height: 34px; min-width: 34px; width: 34px; } #prevButton svg, #nextButton svg { width: 18px; height: 18px; } .view-control { width: 72px; font-size: .86rem; } .select-control { font-size: .9rem; padding-inline: 12px 24px; } }
   </style>
 </head>
 <body>
@@ -119,8 +126,8 @@
     <div class="toolbar" aria-label="Calendar controls">
       <select class="control select-control" id="organizationFilter" aria-label="Filter by organization"><option value="">All organizations</option></select>
       <select class="control view-control" id="viewSelect" aria-label="Calendar view"><option value="dayGridMonth">Month</option><option value="timeGridWeek">Week</option><option value="timeGridDay">Day</option><option value="listMonth">List</option></select>
-      <button class="icon-button" id="prevButton" type="button" aria-label="Previous period">&lt;</button>
-      <button class="icon-button" id="nextButton" type="button" aria-label="Next period">&gt;</button>
+      <button class="icon-button" id="prevButton" type="button" aria-label="Previous period"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M15 18l-6-6 6-6"></path></svg></button>
+      <button class="icon-button" id="nextButton" type="button" aria-label="Next period"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 6l6 6-6 6"></path></svg></button>
       <button class="icon-button notification-button" id="announcementButton" type="button" aria-label="Announcements"><span aria-hidden="true">🔔</span><span class="badge" id="announcementBadge">0</span></button>
     </div>
   </header>
