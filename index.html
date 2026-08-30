@@ -24,9 +24,9 @@
       100% { background-image: linear-gradient(rgba(238, 244, 251, .28), rgba(255, 255, 255, .54)), url("assets/calendar-background.jpg"); }
     }
     button, input, select { font: inherit; }
-    .app-header { position: sticky; top: 0; z-index: 20; display: grid; grid-template-columns: minmax(220px, 1fr) auto minmax(220px, 1fr); align-items: center; gap: 16px; padding: 10px 16px; border-bottom: 3px solid var(--blue); background: linear-gradient(135deg, var(--gold), var(--gold-dark)); box-shadow: 0 10px 28px rgba(15, 23, 42, .18); }
-    .menu-button { display: none; }
-    .brand { display: inline-flex; align-items: center; gap: 10px; min-width: 0; }
+    .app-header { position: sticky; top: 0; z-index: 20; display: grid; grid-template-columns: auto minmax(220px, 1fr) minmax(220px, 1fr); align-items: center; gap: 12px; padding: 10px 16px; border-bottom: 3px solid var(--blue); background: linear-gradient(135deg, var(--gold), var(--gold-dark)); box-shadow: 0 10px 28px rgba(15, 23, 42, .18); }
+    .menu-button { grid-column: 1; display: inline-flex; }
+    .brand { grid-column: 2; display: inline-flex; align-items: center; gap: 10px; min-width: 0; }
     .brand-mark { display: grid; place-items: center; width: 46px; height: 46px; border-radius: 50%; background: #fff; border: 1px solid rgba(15, 23, 42, .08); box-shadow: 0 8px 20px rgba(15, 23, 42, .12); flex: 0 0 auto; overflow: hidden; }
     .brand-mark img { display: block; width: 76%; height: 76%; object-fit: contain; }
     .brand-title { display: grid; min-width: 0; line-height: 1; }
@@ -39,7 +39,7 @@
     .control:focus, .icon-button:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(37, 99, 235, .18), 0 8px 18px rgba(15, 23, 42, .10); }
     .select-control { width: min(300px, 28vw); } .view-control { width: 118px; text-align: center; }
     .icon-button { align-items: center; background: rgba(255, 255, 255, 0.9); border: 1px solid rgba(100, 116, 139, 0.24); border-radius: 50%; box-shadow: 0 8px 18px rgba(15, 23, 42, 0.08); color: #071c3d; cursor: pointer; display: inline-flex; font-size: 1.15rem; font-weight: 900; justify-content: center; line-height: 1; min-height: 38px; padding: 0; transition: border-color .16s ease, box-shadow .16s ease, color .16s ease, transform .16s ease; width: 38px; min-width: 38px; }
-    .icon-button.menu-button { display: none; }
+    .icon-button.menu-button { display: inline-flex; }
     .menu-button span { display: block; width: 20px; height: 2px; border-radius: 999px; background: currentColor; box-shadow: 0 -7px 0 currentColor, 0 7px 0 currentColor; }
     .icon-button:hover { border-color: #2563eb; color: #1d4ed8; box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.14); }
     .icon-button:active { transform: scale(.96); }
@@ -57,8 +57,10 @@
     .calendar-panel, .side-panel { border: 1px solid var(--line); background: rgba(255, 255, 255, .92); box-shadow: var(--shadow); }
     .calendar-panel { border-radius: 16px; padding: 10px; overflow: hidden; min-width: 0; background: rgba(255, 255, 255, .34); backdrop-filter: blur(2px); }
     #calendar { min-height: calc(100vh - 181px); border-radius: 12px; background: rgba(255, 255, 255, .38); backdrop-filter: blur(1px); }
-    .side-panel { border-color: rgba(234, 179, 8, .28); border-radius: 14px; padding: 14px; align-self: start; display: none; gap: 14px; max-height: calc(100vh - 100px); overflow: auto; background: linear-gradient(180deg, rgba(255, 255, 255, .98), rgba(255, 251, 235, .76)); box-shadow: 0 22px 54px rgba(15, 23, 42, .16); }
-    .drawer-backdrop { display: none; }
+    .side-panel { position: fixed; inset: 0 auto 0 0; z-index: 40; width: min(340px, calc(100vw - 28px)); height: 100dvh; max-height: 100dvh; min-height: 100dvh; border-color: rgba(234, 179, 8, .28); border-radius: 0 16px 16px 0; padding: 14px; align-content: start; display: none; gap: 14px; overflow-y: auto; background: linear-gradient(180deg, rgba(255, 255, 255, .98), rgba(255, 251, 235, .76)); box-shadow: 0 22px 54px rgba(15, 23, 42, .16); transform: translateX(calc(-100% - 16px)); transition: transform .2s ease; }
+    body.side-panel-open .side-panel { display: grid; transform: translateX(0); }
+    .drawer-backdrop { position: fixed; inset: 0; z-index: 35; display: block; pointer-events: none; opacity: 0; background: rgba(15,23,42,.38); backdrop-filter: blur(2px); transition: opacity .2s ease; }
+    body.side-panel-open .drawer-backdrop { pointer-events: auto; opacity: 1; }
     .panel-section { display: grid; gap: 10px; padding: 12px; border: 1px solid rgba(234, 179, 8, .56); border-radius: 12px; background: linear-gradient(180deg, rgba(255,255,255,.9), rgba(255,251,235,.62)); box-shadow: 0 12px 30px rgba(15, 23, 42, .08); overflow: hidden; position: relative; }
     .announcement-section::before { content:""; position:absolute; top:0; left:0; right:0; height:4px; background:linear-gradient(90deg,#b42318 0 28%,#f59e0b 28% 86%,#2563eb 86% 100%); }
     .panel-section h2 { margin: 0; font-size: .92rem; text-transform: uppercase; letter-spacing: .1em; color: #1d2d50; line-height:1.08; }
@@ -93,7 +95,7 @@
     .detail-item span { display: block; color: #334155; font-size: .72rem; font-weight: 900; text-transform: uppercase; letter-spacing: .04em; }
     .detail-item strong { display: block; margin-top: 4px; font-size: .9rem; font-weight: 700; overflow-wrap: anywhere; }
     .empty-state { color: var(--muted); font-size: .9rem; line-height: 1.4; padding: 12px; border: 1px dashed #cbd5e1; border-radius: 8px; background: #f8fafc; }
-    @media (max-width: 1180px) { .app-header { grid-template-columns: minmax(220px, max-content) minmax(0, 1fr); grid-template-rows: auto auto; align-items: center; } .brand { grid-column: 1; grid-row: 1; } .toolbar { grid-column: 1 / -1; grid-row: 2; justify-content: flex-end; flex-wrap: nowrap; width: 100%; } .select-control { width: min(42vw, 360px); flex: 0 1 360px; } }
+    @media (max-width: 1180px) { .app-header { grid-template-columns: 44px minmax(220px, max-content) minmax(0, 1fr); grid-template-rows: auto auto; align-items: center; } .menu-button { grid-column: 1; grid-row: 1; } .brand { grid-column: 2; grid-row: 1; } .toolbar { grid-column: 1 / -1; grid-row: 2; justify-content: flex-end; flex-wrap: nowrap; width: 100%; } .select-control { width: min(42vw, 360px); flex: 0 1 360px; } }
     @media (max-width: 980px) { .panel-section { border-bottom: 0; padding-bottom: 0; } }
     @media (max-width: 720px) {
       body { overflow-x: hidden; }
@@ -118,10 +120,7 @@
       .fc .fc-daygrid-body, .fc .fc-scrollgrid-sync-table { min-height: calc(100dvh - 190px); }
       .fc .fc-col-header-cell-cushion, .fc .fc-daygrid-day-number { font-size: .78rem; }
       .fc .fc-event { font-size: .62rem; padding-inline: 3px; }
-      .side-panel { position: fixed; inset: 0 auto 0 0; z-index: 40; width: min(330px, calc(100vw - 28px)); height: 100dvh; max-height: 100dvh; min-height: 100dvh; padding: 14px; grid-template-columns: 1fr; align-content: start; border-radius: 0 16px 16px 0; overflow-y: auto; transform: translateX(calc(-100% - 16px)); transition: transform .2s ease; }
-      body.side-panel-open .side-panel { display: grid; transform: translateX(0); }
-      .drawer-backdrop { position: fixed; inset: 0; z-index: 35; display: block; pointer-events: none; opacity: 0; background: rgba(15,23,42,.38); backdrop-filter: blur(2px); transition: opacity .2s ease; }
-      body.side-panel-open .drawer-backdrop { pointer-events: auto; opacity: 1; }
+      .side-panel { width: min(330px, calc(100vw - 28px)); grid-template-columns: 1fr; }
       .detail-grid { grid-template-columns: 1fr; }
     }
     @media (max-width: 460px) { .app-header { grid-template-columns: 40px minmax(136px, max-content) minmax(0, 1fr); } .toolbar { grid-template-columns: minmax(0, 1fr) 80px 36px 36px 36px; gap: 5px; } .view-control { width: 80px; padding-inline: 8px; } dialog { width: calc(100vw - 16px); border-radius: 12px; } .modal-header, .modal-body { padding-inline: 14px; } }
