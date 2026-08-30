@@ -81,11 +81,11 @@
     @media (max-width: 980px) { main { grid-template-columns: 1fr; } .side-panel { max-height: none; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; } .panel-section { border-bottom: 0; padding-bottom: 0; } }
     @media (max-width: 720px) {
       body { overflow-x: hidden; }
-      .app-header { grid-template-columns: 40px minmax(92px, auto) minmax(0, 1fr); grid-template-rows: 40px 38px; padding: 8px; gap: 7px; align-items: center; }
+      .app-header { grid-template-columns: 40px minmax(142px, max-content) minmax(0, 1fr); grid-template-rows: 40px 38px; padding: 8px; gap: 7px; align-items: center; }
       .menu-button { display: inline-flex; grid-column: 1; grid-row: 1; width: 40px; min-width: 40px; height: 40px; min-height: 40px; }
       .brand { grid-column: 2; grid-row: 1; gap: 7px; min-width: 0; overflow: hidden; }
       .brand-mark { width: 36px; height: 36px; }
-      .brand-title strong { font-size: .98rem; max-width: 118px; }
+      .brand-title strong { font-size: clamp(.82rem, 3.55vw, .95rem); max-width: none; }
       .brand-title span { display: none; }
       .calendar-title { grid-column: 3; grid-row: 1; justify-self: end; text-align: right; font-size: clamp(1rem, 5.2vw, 1.28rem); line-height: 1; min-width: 0; max-width: 100%; overflow: hidden; text-overflow: ellipsis; }
       .toolbar { grid-column: 1 / -1; grid-row: 2; display: grid; grid-template-columns: minmax(0, 1fr) 86px 36px 36px 36px; align-items: center; width: 100%; gap: 6px; }
@@ -101,14 +101,14 @@
       .fc .fc-daygrid-body, .fc .fc-scrollgrid-sync-table { min-height: calc(100dvh - 190px); }
       .fc .fc-col-header-cell-cushion, .fc .fc-daygrid-day-number { font-size: .78rem; }
       .fc .fc-event { font-size: .62rem; padding-inline: 3px; }
-      .side-panel { position: fixed; inset: 0 auto 0 0; z-index: 40; width: min(330px, calc(100vw - 28px)); max-height: none; padding: 14px; grid-template-columns: 1fr; align-content: start; border-radius: 0 16px 16px 0; transform: translateX(calc(-100% - 16px)); transition: transform .2s ease; }
+      .side-panel { position: fixed; inset: 0 auto 0 0; z-index: 40; width: min(330px, calc(100vw - 28px)); height: 100dvh; max-height: 100dvh; min-height: 100dvh; padding: 14px; grid-template-columns: 1fr; align-content: start; border-radius: 0 16px 16px 0; overflow-y: auto; transform: translateX(calc(-100% - 16px)); transition: transform .2s ease; }
       body.side-panel-open .side-panel { transform: translateX(0); }
       .drawer-backdrop { position: fixed; inset: 0; z-index: 35; display: block; pointer-events: none; opacity: 0; background: rgba(15,23,42,.38); backdrop-filter: blur(2px); transition: opacity .2s ease; }
       body.side-panel-open .drawer-backdrop { pointer-events: auto; opacity: 1; }
       .detail-grid { grid-template-columns: 1fr; }
     }
-    @media (max-width: 460px) { .toolbar { grid-template-columns: minmax(0, 1fr) 80px 36px 36px 36px; gap: 5px; } .view-control { width: 80px; padding-inline: 8px; } .brand-title strong { max-width: 104px; } dialog { width: calc(100vw - 16px); border-radius: 12px; } .modal-header, .modal-body { padding-inline: 14px; } }
-    @media (max-width: 380px) { .app-header { grid-template-columns: 38px minmax(72px, auto) minmax(0, 1fr); gap: 5px; } .menu-button { height: 38px; min-height: 38px; min-width: 38px; width: 38px; } .brand-mark { width: 34px; height: 34px; } .brand-title strong { font-size: .84rem; max-width: 78px; } .calendar-title { font-size: .98rem; } .toolbar { grid-template-columns: minmax(0, 1fr) 72px 34px 34px 34px; gap: 4px; } .control, .icon-button { height: 34px; } .icon-button, #prevButton, #nextButton, .notification-button { flex-basis: 34px; height: 34px; max-width: 34px; min-height: 34px; min-width: 34px; width: 34px; } .view-control { width: 72px; font-size: .86rem; } .select-control { font-size: .9rem; padding-inline: 12px 24px; } }
+    @media (max-width: 460px) { .app-header { grid-template-columns: 40px minmax(136px, max-content) minmax(0, 1fr); } .toolbar { grid-template-columns: minmax(0, 1fr) 80px 36px 36px 36px; gap: 5px; } .view-control { width: 80px; padding-inline: 8px; } dialog { width: calc(100vw - 16px); border-radius: 12px; } .modal-header, .modal-body { padding-inline: 14px; } }
+    @media (max-width: 380px) { .app-header { grid-template-columns: 38px minmax(118px, max-content) minmax(0, 1fr); gap: 5px; } .menu-button { height: 38px; min-height: 38px; min-width: 38px; width: 38px; } .brand { gap:5px; } .brand-mark { width: 34px; height: 34px; } .brand-title strong { font-size: .78rem; } .calendar-title { font-size: .92rem; } .toolbar { grid-template-columns: minmax(0, 1fr) 72px 34px 34px 34px; gap: 4px; } .control, .icon-button { height: 34px; } .icon-button, #prevButton, #nextButton, .notification-button { flex-basis: 34px; height: 34px; max-width: 34px; min-height: 34px; min-width: 34px; width: 34px; } .view-control { width: 72px; font-size: .86rem; } .select-control { font-size: .9rem; padding-inline: 12px 24px; } }
   </style>
 </head>
 <body>
