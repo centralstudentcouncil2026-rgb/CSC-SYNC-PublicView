@@ -1,4 +1,4 @@
-import { renderPublicView, mountPublicView } from './dashboards/public.js?v=20261022-popup-type';
+import { renderPublicView, mountPublicView } from './dashboards/public.js?v=20261022-title-first';
 
 const root = document.querySelector('#student-app');
 

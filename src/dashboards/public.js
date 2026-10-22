@@ -6,7 +6,7 @@ import { supabaseRequest } from '../services/supabase.js';
 import { escapeHtml as esc, formatTime, monthTitle } from '../shared/ui.js';
 import { adjacentMonth } from '../shared/schedule-controls.js';
 import { monthSegments, renderMonthRows, bindMonthOverflow } from '../shared/calendar-layout.js?v=20261020-fit-strips';
-import { renderMainCalendarStrip } from '../shared/main-calendar.js?v=20261021-org-strip-label';
+import { calendarScheduleLabel, renderMainCalendarStrip } from '../shared/main-calendar.js?v=20261022-title-first';
 
 const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 const today = () => new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Manila', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date());
@@ -62,13 +62,13 @@ function yearGrid() {
       if (day < 1 || day > last) return '<span class="mini-day empty"></span>';
       const date = `${prefix}${String(day).padStart(2, '0')}`;
       const dayEvents = rows.filter(event => event.occurrenceDate === date);
-      return `<span class="mini-day ${dayEvents.length ? 'has-events' : ''}"><span class="mini-day-number">${day}</span>${dayEvents.length ? `<span class="mini-event-strips">${dayEvents.slice(0, 2).map(event => `<i class="${color(event)}">${esc(event.organizationName)}</i>`).join('')}${dayEvents.length > 2 ? '<em>+</em>' : ''}</span>` : ''}</span>`;
+      return `<span class="mini-day ${dayEvents.length ? 'has-events' : ''}"><span class="mini-day-number">${day}</span>${dayEvents.length ? `<span class="mini-event-strips">${dayEvents.slice(0, 2).map(event => `<i class="${color(event)}" title="${esc(calendarScheduleLabel(event, event))}">${esc(calendarScheduleLabel(event, event))}</i>`).join('')}${dayEvents.length > 2 ? '<em>+</em>' : ''}</span>` : ''}</span>`;
     }).join('')}</span></button>`;
   }).join('')}</section>`;
 }
 
 function chip(event) {
-  return `<button class="event-chip ${color(event)}" type="button" data-event-detail="${esc(event.id)}" data-event-starts-at="${esc(event.occurrenceFullStartsAt || event.startsAt)}" data-event-ends-at="${esc(event.occurrenceFullEndsAt || event.endsAt)}">${esc(event.organizationName)} - ${esc(event.title)}</button>`;
+  return `<button class="event-chip ${color(event)}" type="button" data-event-detail="${esc(event.id)}" data-event-starts-at="${esc(event.occurrenceFullStartsAt || event.startsAt)}" data-event-ends-at="${esc(event.occurrenceFullEndsAt || event.endsAt)}">${esc(calendarScheduleLabel(event, event))}</button>`;
 }
 
 function contactAction(event) {
