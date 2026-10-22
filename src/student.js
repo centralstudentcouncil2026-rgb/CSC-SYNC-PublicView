@@ -1,4 +1,4 @@
-import { renderPublicView, mountPublicView } from './dashboards/public.js?v=20261022-csc-filter';
+import { renderPublicView, mountPublicView } from './dashboards/public.js?v=20261022-popup-type';
 
 const root = document.querySelector('#student-app');
 
