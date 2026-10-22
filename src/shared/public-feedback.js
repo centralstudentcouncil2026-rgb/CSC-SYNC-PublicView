@@ -27,8 +27,7 @@ export function publicFeedbackContent() {
   return `<div class="student-about-body">
     <section class="student-about-intro"><h2>CSC S.Y.N.C.</h2>
       <p>Systemized Year-round Network Calendar helps the university community discover approved public events, keep track of activities, and connect with event organizers. It brings scheduling and coordination together for the Central Student Council and university organizations.</p>
-      <p class="student-creator-credit">Created by Rex Dominic F. Perico.</p>
-      <p>Under the leadership of Rex Dominic F. Perico — Central Student Council administration, SY 2026–2027.</p>
+      <p class="student-creator-credit">This Web application is created under the leadership of Rex Dominic F. Perico — Central Student Council administration, SY 2026–2027.</p>
     </section>
     <form data-public-feedback><h2>Share with the CSC</h2><p>Send a concern, thought, or idea privately to the CSC team. Contact details are optional.</p>
       <div class="student-feedback-grid">
