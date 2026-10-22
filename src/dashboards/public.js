@@ -1,7 +1,8 @@
 import { CSC_NAME } from '../shared/calendar-organization-filter.js';
+import { publicFeedbackContent, bindPublicFeedback, hasPublicFeedbackDraft } from '../shared/public-feedback.js?v=20261022-public-feedback';
 import { messengerHref } from "../shared/contact-links.js?v=20261022-messenger";
-import { eventOccurrencesBetween } from '../services/events.js?v=20261022-csc-filter';
-import { mapEvent } from '../services/database.js?v=20261022-owner-contact';
+import { eventOccurrencesBetween } from '../services/events.js?v=20261022-calendar-blocks';
+import { mapEvent } from '../services/database.js?v=20261022-calendar-blocks';
 import { supabaseRequest } from '../services/supabase.js';
 import { escapeHtml as esc, formatTime, monthTitle } from '../shared/ui.js';
 import { adjacentMonth } from '../shared/schedule-controls.js';
@@ -10,7 +11,7 @@ import { calendarScheduleLabel, renderMainCalendarStrip } from '../shared/main-c
 
 const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 const today = () => new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Manila', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date());
-const view = { date: today(), mode: 'month', filter: 'all', modal: null };
+const view = { date: today(), mode: 'month', filter: 'all', modal: hasPublicFeedbackDraft() ? { kind: 'about' } : null };
 let events = [], loaded = false, loadError = '', controller;
 let organizerContact = { id: '', state: 'loading', phone: '' };
 let repaintView = null;
@@ -32,6 +33,7 @@ function header() {
       <select class="top-pill" data-student-filter aria-label="Organization filter"><option value="all">Organizations</option>${organizations.map(name => `<option value="${esc(name)}" ${view.filter === name ? 'selected' : ''}>${esc(name)}</option>`).join('')}</select>
       <select class="top-pill" data-student-view aria-label="Calendar view"><option value="month" ${view.mode === 'month' ? 'selected' : ''}>Month</option><option value="year" ${view.mode === 'year' ? 'selected' : ''}>Year</option></select>
       ${[-1, 1].map(step => `<button class="round-button nav-button" type="button" data-student-step="${step}" aria-label="${step < 0 ? 'Previous' : 'Next'} ${view.mode}" title="${step < 0 ? 'Previous' : 'Next'} ${view.mode}">${arrow(step)}</button>`).join('')}
+      <button class="round-button" type="button" data-student-about aria-label="About CSC SYNC" title="About CSC SYNC"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v6m0-10v.1"/></svg></button>
     </div></header>`;
 }
 
@@ -82,6 +84,7 @@ function contactAction(event) {
 
 function modal() {
   if (!view.modal) return '';
+  if (view.modal.kind === 'about') return `<div class="modal-backdrop" data-student-backdrop><section class="modal-card schedule-popup-card student-about-card" role="dialog" aria-modal="true" aria-label="About CSC SYNC"><div class="modal-topline"><span>About CSC SYNC</span><button class="modal-x" type="button" data-student-close>Close</button></div>${publicFeedbackContent()}</section></div>`;
   const detail = view.modal.kind === 'detail';
   const event = detail && selectedEvents().find(item => item.id === view.modal.id);
   const fields = event ? [['Organization', event.organizationName], ['Status', 'Approved'], ['Category', event.category], ['Venue', event.venue], ['Date and time', `${view.modal.start.slice(0, 10)} ${formatTime(view.modal.start)} – ${view.modal.end.slice(0, 10)} ${formatTime(view.modal.end)}`], ['Repeat', event.frequency === 'none' ? 'Does not repeat' : `${event.frequency} until ${event.repeatUntil || 'not set'}`], ['Description', event.publicDescription || 'No description provided.']] : [];
@@ -102,6 +105,7 @@ export function mountPublicView(container, { onChange = null } = {}) {
     const target = event.target.closest('button, [data-student-backdrop]');
     if (!target) return;
     if (target.dataset.studentStep) { view.date = adjacentMonth(view.date, Number(target.dataset.studentStep) * (view.mode === 'year' ? 12 : 1)); view.modal = null; }
+    else if (target.hasAttribute('data-student-about')) view.modal = { kind: 'about' };
     else if (target.dataset.studentMonth) { view.date = target.dataset.studentMonth; view.mode = 'month'; }
     else if (target.dataset.studentDate) view.modal = { kind: 'day', date: target.dataset.studentDate };
     else if (target.dataset.eventDetail) { organizerContact = { id: '', state: 'loading', phone: '' }; view.modal = { kind: 'detail', id: target.dataset.eventDetail, start: target.dataset.eventStartsAt, end: target.dataset.eventEndsAt }; }
@@ -121,6 +125,7 @@ export function mountPublicView(container, { onChange = null } = {}) {
   const dialog = container.querySelector('[role="dialog"]');
   if (dialog && !dialog.contains(document.activeElement)) dialog.querySelector('[data-student-close]')?.focus({ preventScroll: true });
   bindMonthOverflow(container);
+  bindPublicFeedback(container, repaint);
   if (controller) {
     if (view.modal?.kind === 'detail' && organizerContact.id !== view.modal.id) void controller.refreshContact();
     return;

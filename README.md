@@ -16,3 +16,8 @@ No private credentials are included. Access is enforced by database policies.
 
 The Student app calls only the approved-public calendar and organizer-contact RPCs.
 Its SQL files update those RPCs on an existing CSC SYNC schema; use the Admin repository for full schema setup.
+
+
+## Public feedback (migration 043)
+
+Apply `database/migrations/043_public_feedback.sql` in the shared Supabase project once. Student View has a responsive About icon and a Concern / Thought / Idea form. Submissions appear in Admin Concerns with optional visitor name and contact details, using the existing progress controls. Anonymous visitors can submit through the RPC but cannot read concerns. Drafts survive reloads; retries reuse a request ID to avoid duplicate submissions. A browser-level one-minute cooldown and a hidden bot field reduce repeated submissions.
