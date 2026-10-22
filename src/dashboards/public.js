@@ -24,17 +24,14 @@ const arrow = direction => `<svg viewBox="0 0 24 24" aria-hidden="true"><path d=
 
 function header() {
   const organizations = [...new Set(events.map(event => event.organizationName))].sort();
-  return `<header class="org-header schedule-calendar-header main-calendar-header">
-    <div class="org-brand">
-      <img class="seal logo-mark" src="./src/assets/csc-logo.png" alt="CSC S.Y.N.C. logo">
-      <div><strong>CSC S.Y.N.C.</strong><small>Student Calendar</small></div></div>
+  return `<div class="org-header schedule-calendar-header main-calendar-header calendar-toolbar">
     <h1>${view.mode === 'year' ? view.date.slice(0, 4) : monthTitle(view.date)}</h1>
     <div class="org-header-controls">
       <select class="top-pill" data-student-filter aria-label="Organization filter"><option value="all">Organizations</option>${organizations.map(name => `<option value="${esc(name)}" ${view.filter === name ? 'selected' : ''}>${esc(name)}</option>`).join('')}</select>
       <select class="top-pill" data-student-view aria-label="Calendar view"><option value="month" ${view.mode === 'month' ? 'selected' : ''}>Month</option><option value="year" ${view.mode === 'year' ? 'selected' : ''}>Year</option></select>
       ${[-1, 1].map(step => `<button class="round-button nav-button" type="button" data-student-step="${step}" aria-label="${step < 0 ? 'Previous' : 'Next'} ${view.mode}" title="${step < 0 ? 'Previous' : 'Next'} ${view.mode}">${arrow(step)}</button>`).join('')}
       <button class="round-button" type="button" data-student-about aria-label="About CSC SYNC" title="About CSC SYNC"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v6m0-10v.1"/></svg></button>
-    </div></header>`;
+    </div></div>`;
 }
 
 function monthGrid() {
