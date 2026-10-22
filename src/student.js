@@ -1,5 +1,5 @@
 import "./shared/notices.js?v=20261022-overlay";
-import { renderPublicView, mountPublicView } from './dashboards/public.js?v=20261022-back-left';
+import { renderPublicView, mountPublicView } from './dashboards/public.js?v=20261022-site-titles';
 import { captureFormView, deferFormRender } from './shared/form-view.js?v=20261021-panel-scroll';
 
 const root = document.querySelector('#student-app');

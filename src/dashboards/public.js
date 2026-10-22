@@ -28,7 +28,7 @@ function header() {
     <a class="csc-dashboard-back" href="./csc-websites.html" aria-label="Back to CSC Websites"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 5-7 7 7 7M5 12h14"/></svg><span>CSC Websites</span></a>
     <div class="org-brand">
       <img class="seal logo-mark" src="./src/assets/csc-logo.png" alt="CSC S.Y.N.C. logo">
-      <div><strong>CSC S.Y.N.C.</strong><small>Student Calendar</small></div></div>
+      <div><strong>CSC SYNC</strong><small>Systemized Year-round Network Calendar</small></div></div>
     <h1>${view.mode === 'year' ? view.date.slice(0, 4) : monthTitle(view.date)}</h1>
     <div class="org-header-controls">
       <select class="top-pill" data-student-filter aria-label="Organization filter"><option value="all">Organizations</option>${organizations.map(name => `<option value="${esc(name)}" ${view.filter === name ? 'selected' : ''}>${esc(name)}</option>`).join('')}</select>
