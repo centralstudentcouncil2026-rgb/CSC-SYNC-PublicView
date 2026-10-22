@@ -2,6 +2,7 @@
 .student-dashboard .org-header {
   grid-template-columns: auto minmax(150px, 1fr) auto auto;
   gap: 12px;
+  min-height: 64px;
   background: linear-gradient(90deg, #facc15 0%, #eab308 50%, #ca8a04 100%);
   border-bottom: 4px solid #0c1665;
 }
@@ -38,12 +39,12 @@
   .student-dashboard .org-header .org-header-controls { grid-column: 1 / -1; width: 100%; justify-content: flex-end; flex-wrap: wrap; }
 }
 @media (max-width: 620px) {
-  .student-dashboard .org-header { grid-template-columns: auto auto auto minmax(0, 1fr); gap: 4px; padding: 6px; }
+  .student-dashboard .org-header { grid-template-columns: auto auto auto minmax(0, 1fr); gap: 4px; padding: 6px; min-height: 58px; }
   .student-dashboard .org-header .org-brand > div { display: none; }
   .student-dashboard .org-header .org-brand .seal { width: 20px; height: 28px; }
   .student-dashboard .org-header > h1 { font-size: clamp(11px, 3vw, 16px); }
   .student-dashboard .org-header .csc-dashboard-back { width: 28px; min-height: 28px; padding: 5px; }
-  .student-dashboard .org-header .org-header-controls { grid-column: auto; width: auto; flex-wrap: nowrap; justify-content: flex-end; gap: 2px; }
-  .student-dashboard .org-header .org-header-controls .top-pill { width: clamp(34px, 10vw, 56px); min-width: 0; max-width: 56px; height: 28px; padding: 0 3px; font-size: 10px; }
-  .student-dashboard .org-header .round-button { width: 26px; height: 28px; }
+  .student-dashboard .org-header .org-header-controls { grid-column: auto; width: 100%; flex-wrap: nowrap; justify-content: flex-end; gap: 2px; }
+  .student-dashboard .org-header .org-header-controls .top-pill { flex: 1 1 0; width: 0; min-width: 0; max-width: none; height: 28px; padding: 0 4px; font-size: 10px; }
+  .student-dashboard .org-header .round-button { flex: 0 0 26px; width: 26px; height: 28px; }
 }
